@@ -3,7 +3,6 @@ from logging import INFO, basicConfig, getLogger
 import os
 from getpass import getpass
 
-# NOTE : Logging setting is here
 basicConfig(
     format='{asctime} [{levelname:.4}] {name}: {message}',
     style='{'
