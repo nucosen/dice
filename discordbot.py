@@ -9,7 +9,6 @@ from logging import INFO, basicConfig, getLogger
 from json import load
 
 basicConfig(
-    level=INFO,
     format='{asctime} [{levelname:.4}] {name}: {message}',
     style='{'
 )
