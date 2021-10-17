@@ -153,7 +153,7 @@ async def on_message(message):
             )
             await message.channel.send(reference=message, mention_author=True, embed=embed)
 
-        match = re.match("^CCB<=([0-9]+).*$", message.content)
+        match = re.match("^ccb<=([0-9]+).*$", str(message.content).lower())
         if match:
             DICE_ROLLED = True
             border = int(match.groups()[0])
