@@ -2,6 +2,7 @@ import configparser
 from logging import INFO, basicConfig, getLogger
 import os
 from getpass import getpass
+import re
 
 basicConfig(
     format='{asctime} [{levelname:.4}] {name}: {message}',
@@ -35,7 +36,12 @@ else:
     discordConfig = config["Discord"]
     if discordConfig.get("token", None) is None \
             or input("Would you change Discord access token ? (y/N): ") == "y":
-        discordConfig["token"] = getpass("Enter Discord access token :")
+        while True:
+            accessToken = getpass("Enter Discord access token :")
+            if re.match("^[0-9a-zA-Z._-]+$",accessToken):
+                break
+            print("Bad access token. You can use 0-9, a-z, A-z, and some symbols.")
+        discordConfig["token"]
     pass
 
 with open(optionFilePath, "w") as optionFilePoint:
