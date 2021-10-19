@@ -41,7 +41,7 @@ else:
             if re.match("^[0-9a-zA-Z._-]+$",accessToken):
                 break
             print("Bad access token. You can use 0-9, a-z, A-z, and some symbols.")
-        discordConfig["token"]
+        discordConfig["token"] = accessToken
     pass
 
 with open(optionFilePath, "w") as optionFilePoint:
