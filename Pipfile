@@ -6,6 +6,8 @@ name = "pypi"
 [packages]
 discord = "*"
 aiohttp = ">=3.7.4"
+python-decouple = "*"
+discord-py-interactions = "*"
 
 [dev-packages]
 

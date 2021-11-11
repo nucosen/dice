@@ -1,4 +1,63 @@
-[
+CoC_CharacterSheet = """```\
+STR（3d6）  ：{0}
+CON（3d6）  ：{1}
+POW（3d6）  ：{2}
+DEX（3d6）  ：{3}
+APP（3d6）  ：{4}
+SIZ（2d6+6）：{5}
+INT（2d6+6）：{6}
+EDU（3d6+3）：{7}
+--------------------
+SAN（POWx5）    ：{8}
+幸運（POWx5）   ：{9}
+アイデア（INTx5）   ：{10}
+知識（EDUx5）       ：{11}
+耐久力（CON+SIZ /2）：{12}
+--------------------
+職業P（EDUx20） ：{13}
+興味P（INTx10） ：{14}
+```"""
+
+Guide = """```\
+（※ xx や yy は半角数値に置き換えてください）
+
+文章中に「xxdyy!」　指定されたダイスに置き換えられます
+
+「/coc」　CoCのキャラシ生成
+        気に入ったキャラシは「いあきゃら」で保存できます
+
+「SANxx」　SAN値xxでSAN値チェック。
+
+「CCB<=xx」
+「CCB<=xx【技能名】」
+　　　技能値チェック。
+　　　成功／失敗だけでなくクリティカル／ファンブルも出ます
+
+「/tokucho」
+　　　特徴表に沿ってダイスロールを行います
+　　　表番号と特徴名、効果を表示します
+
+「/secret」
+　　　D100でシークレットダイスを振ります
+　　　結果は振った人にしか見えません
+
+「@ダイス君」　このガイドを表示します\
+```"""
+
+emoji_list = [
+    "\N{GRINNING FACE}",
+    "\N{GRINNING FACE WITH SMILING EYES}",
+    "\N{SMILING FACE WITH OPEN MOUTH}",
+    "\N{SMILING FACE WITH OPEN MOUTH AND SMILING EYES}",
+    "\N{SMILING FACE WITH OPEN MOUTH AND TIGHTLY-CLOSED EYES}",
+    "\N{WINKING FACE}",
+    "\N{SMILING FACE WITH SMILING EYES}",
+    "\N{FACE SAVOURING DELICIOUS FOOD}",
+    "\N{SMILING FACE WITH SUNGLASSES}",
+    "\N{SMIRKING FACE}"
+]
+
+tokucho = [
     0,
     [
         1,
@@ -219,7 +278,7 @@
         6,
         [
             "奇妙な幸運",
-            "神話の神性や怪物がランダムに目標を攻撃する際、対象外。ただし、単独で攻撃されたり攻撃範囲内に居た場合は対象内"    
+            "神話の神性や怪物がランダムに目標を攻撃する際、対象外。ただし、単独で攻撃されたり攻撃範囲内に居た場合は対象内"
         ],
         [
             "投擲の才能",
