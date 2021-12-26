@@ -7,4 +7,4 @@ Simple dice bot for discord.
 
 ## Install
 
-`pip install https://github.com/nucosen/dice/releases/download/v3.0.0/dice-3.0.0.tar.gz`
+`pip install https://github.com/nucosen/dice/releases/download/v3.0.0/dice-4.0.0.tar.gz`
