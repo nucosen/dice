@@ -36,9 +36,12 @@ def run():
     try:
         servers: List = config("DISCORD_DICE_SERVERS").split(",")
     except UndefinedValueError:
+        logger.warn("No server is allowed to run slash command.")
         servers = []
     else:
-        logger.warn("No server is allowed")
+        logger.info(
+            "{0} server(s) is/are allowed to run slash command.".format(len(servers))
+        )
         servers = list(map(int, servers))
 
     @client.event
@@ -51,7 +54,7 @@ def run():
         if client.user in message.mentions:
             await message.add_reaction(choice(emoji_list))
             embed = discord.Embed(
-                title="「ダイス君」で出来ること",
+                title="「ダイス君 v4.0.0」で出来ること",
                 description=Guide,
                 color=discord.Colour.blue()
             )
@@ -142,7 +145,7 @@ def run():
             )
             embed.set_footer(
                 text="最上部のリンクをクリックすると、このダイス結果で「いあきゃら」のキャラクターを作成します")
-            await message.channel.send(reference=message, mention_author=True, embed=embed)
+            await message.channel.send("【非推奨コマンド】\nこのコマンドは非推奨に指定されており、次のアップデートで削除されます。\n今後はスラッシュコマンド「`/coc`」を使用してください。",reference=message, mention_author=True, embed=embed)
 
         if message.content == "特徴表":
             roll = (0, randint(1, 6), randint(1, 10))
@@ -152,7 +155,7 @@ def run():
                 description=result[1],
                 color=discord.Colour.blue()
             )
-            await message.channel.send(reference=message, mention_author=True, embed=embed)
+            await message.channel.send("【非推奨コマンド】\nこのコマンドは非推奨に指定されており、次のアップデートで削除されます。\n今後はスラッシュコマンド「`/tokucho`」を使用してください。",reference=message, mention_author=True, embed=embed)
 
     @slash_client.slash(
         name="secret",
