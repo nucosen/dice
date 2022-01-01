@@ -54,7 +54,7 @@ def run():
         if client.user in message.mentions:
             await message.add_reaction(choice(emoji_list))
             embed = discord.Embed(
-                title="「ダイス君 v4.0.0」で出来ること",
+                title="「ダイス君 v4.1.0」で出来ること",
                 description=Guide,
                 color=discord.Colour.blue()
             )
@@ -123,40 +123,6 @@ def run():
             )
             await message.channel.send(reference=message, mention_author=True, embed=embed)
 
-        if message.content == "CoC":
-            STR = randint(1, 6) + randint(1, 6) + randint(1, 6)
-            CON = randint(1, 6) + randint(1, 6) + randint(1, 6)
-            POW = randint(1, 6) + randint(1, 6) + randint(1, 6)
-            DEX = randint(1, 6) + randint(1, 6) + randint(1, 6)
-            APP = randint(1, 6) + randint(1, 6) + randint(1, 6)
-            SIZ = randint(1, 6) + randint(1, 6) + 6
-            INT = randint(1, 6) + randint(1, 6) + 6
-            EDU = randint(1, 6) + randint(1, 6) + randint(1, 6) + 3
-            result = CoC_CharacterSheet.format(
-                STR, CON, POW, DEX, APP, SIZ, INT, EDU,
-                POW*5, POW*5, INT*5, EDU*5, (CON+SIZ)//2,
-                EDU*20, INT*10
-            )
-            embed = discord.Embed(
-                title="CoCキャラシ生成結果",
-                url=f"https://iachara.com/new/costom/webdice?var=6&STR={STR}&CON={CON}&POW={POW}&DEX={DEX}&APP={APP}&SIZ={SIZ}&INT={INT}&EDU={EDU}",
-                description=result,
-                color=discord.Colour.green()
-            )
-            embed.set_footer(
-                text="最上部のリンクをクリックすると、このダイス結果で「いあきゃら」のキャラクターを作成します")
-            await message.channel.send("【非推奨コマンド】\nこのコマンドは非推奨に指定されており、次のアップデートで削除されます。\n今後はスラッシュコマンド「`/coc`」を使用してください。",reference=message, mention_author=True, embed=embed)
-
-        if message.content == "特徴表":
-            roll = (0, randint(1, 6), randint(1, 10))
-            result = tokucho[roll[1]][roll[2]]
-            embed = discord.Embed(
-                title=f"特徴表ロール結果：{roll[1]}-{roll[2]}『{result[0]}』",
-                description=result[1],
-                color=discord.Colour.blue()
-            )
-            await message.channel.send("【非推奨コマンド】\nこのコマンドは非推奨に指定されており、次のアップデートで削除されます。\n今後はスラッシュコマンド「`/tokucho`」を使用してください。",reference=message, mention_author=True, embed=embed)
-
     @slash_client.slash(
         name="secret",
         guild_ids=servers,
@@ -166,6 +132,25 @@ def run():
         await ctx.send(content="結果：`{0}`".format(randint(1, 100)), hidden=True)
 
     @slash_client.slash(
+        name="omikuji",
+        guild_ids=servers,
+        description="今年の運勢を占ってみましょう！"
+    )
+    async def _slash_omikuji(ctx: SlashContext):
+        total = choice(omikuji)
+        result = "{0}\n願望{1}　仕事{2}　恋愛{3}\n健康{4}　金運{5}　旅行{6}".format(
+            total,
+            choice(unsei), choice(unsei), choice(unsei),
+            choice(unsei), choice(unsei), choice(unsei)
+        )
+        embed = discord.Embed(
+            title="【おみくじ】",
+            description=result,
+            color=discord.Colour.green()
+        )
+        await ctx.send(embed=embed)
+
+    @ slash_client.slash(
         name="coc",
         guild_ids=servers,
         description="CoCのキャラシを作成します"
