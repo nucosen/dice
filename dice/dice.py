@@ -5,7 +5,7 @@ from random import randint, choice
 import os
 from logging import INFO, basicConfig, getLogger
 from json import load
-from decouple import UndefinedValueError, config
+from decouple import UndefinedValueError, AutoConfig
 from discord import client
 from discord.ext import commands
 from discord_slash import SlashCommand, SlashContext
@@ -16,7 +16,7 @@ from dice.text import *
 basicConfig(
     format='{asctime} [{levelname:4}] {message}',
     style='{',
-    level=INFO
+    # level=INFO
 )
 
 
@@ -28,6 +28,8 @@ def run():
     slash_client = SlashCommand(client, sync_commands=True)
 
     try:
+        config = AutoConfig(search_path=os.getcwd())
+        logger.info("CWD is {0}".format(os.getcwd()))
         TOKEN = config("DISCORD_DICE_TOKEN")
     except UndefinedValueError:
         logger.critical("Discord token is NOT FOUND.")
@@ -44,6 +46,11 @@ def run():
         )
         servers = list(map(int, servers))
 
+        logger.info("--- Arrowed servers list begin ---")
+        for server in servers:
+            logger.info(str(server))
+        logger.info("--- Arrowed servers list end ---")
+
     @client.event
     async def on_message(message):
 
@@ -54,10 +61,11 @@ def run():
         if client.user in message.mentions:
             await message.add_reaction(choice(emoji_list))
             embed = discord.Embed(
-                title="「ダイス君 v4.1.0」で出来ること",
+                title="「ダイス君 v4.1.1」で出来ること",
                 description=Guide,
                 color=discord.Colour.blue()
             )
+            logger.info("Dice-kun is active !")
             await message.channel.send(embed=embed)
             return
 
