@@ -1,15 +1,14 @@
+from discord_slash.utils.manage_commands import create_option
+from dice.text import *
 from typing import List
 import discord
 import re
 from random import randint, choice
 import os
-from logging import INFO, basicConfig, getLogger
-from json import load
+from logging import basicConfig, getLogger
 from decouple import UndefinedValueError, AutoConfig
-from discord import client
 from discord.ext import commands
 from discord_slash import SlashCommand, SlashContext
-from dice.text import *
 
 
 # FIXME ロギングレベル変更中 <<< REMOVE BEFORE DEPLOY >>>
@@ -61,7 +60,7 @@ def run():
         if client.user in message.mentions:
             await message.add_reaction(choice(emoji_list))
             embed = discord.Embed(
-                title="「ダイス君 v4.1.1」で出来ること",
+                title="「ダイス君 v4.2.0」で出来ること",
                 description=Guide,
                 color=discord.Colour.blue()
             )
@@ -138,6 +137,34 @@ def run():
     )
     async def _slash_secret(ctx: SlashContext):
         await ctx.send(content="結果：`{0}`".format(randint(1, 100)), hidden=True)
+
+    touhou_option = create_option(
+        name="repeats",
+        description="表示するキャラクター数を指定します",
+        option_type=int,
+        required=False
+    )
+
+    @slash_client.slash(
+        name="touhou",
+        guild_ids=servers,
+        description="東方Projectからキャラクターを表示します",
+        options=[touhou_option]
+    )
+    async def _slash_secret(ctx: SlashContext, repeats: int = 1):
+        results: List(str) = []
+        if repeats < 1 or repeats >= 100:
+            repeats = 1
+            results.append("`回数指定は無視されました。1以上100以下の値を指定してください。`")
+        for _ in range(repeats):
+            results.append(choice(touhou_character))
+        result = "\n".join(results)
+        embed = discord.Embed(
+            title="東方キャラダイス",
+            description=result,
+            color=discord.Colour.blue()
+        )
+        await ctx.send(embed=embed)
 
     @slash_client.slash(
         name="omikuji",
