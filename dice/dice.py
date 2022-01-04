@@ -1,3 +1,5 @@
+from json import loads
+from requests import get
 from discord_slash.utils.manage_commands import create_option
 from dice.text import *
 from typing import List
@@ -21,14 +23,12 @@ basicConfig(
 
 def run():
     logger = getLogger(__name__)
-    logger.info("Starting Dice-KUN...")
 
     client = commands.Bot(command_prefix='@', intents=discord.Intents.all())
     slash_client = SlashCommand(client, sync_commands=True)
 
     try:
         config = AutoConfig(search_path=os.getcwd())
-        logger.info("CWD is {0}".format(os.getcwd()))
         TOKEN = config("DISCORD_DICE_TOKEN")
     except UndefinedValueError:
         logger.critical("Discord token is NOT FOUND.")
@@ -60,7 +60,7 @@ def run():
         if client.user in message.mentions:
             await message.add_reaction(choice(emoji_list))
             embed = discord.Embed(
-                title="「ダイス君 v4.2.0」で出来ること",
+                title="「ダイス君 v5.0.0」で出来ること",
                 description=Guide,
                 color=discord.Colour.blue()
             )
@@ -109,7 +109,7 @@ def run():
             )
             await message.channel.send(reference=message, mention_author=True, embed=embed)
 
-        match = re.match("^ccb<=([0-9]+).*$", str(message.content).lower())
+        match = re.match("^ccb([0-9]+).*$", str(message.content).lower())
         if match:
             border = int(match.groups()[0])
             dice = randint(1, 100)
@@ -137,6 +137,27 @@ def run():
     )
     async def _slash_secret(ctx: SlashContext):
         await ctx.send(content="結果：`{0}`".format(randint(1, 100)), hidden=True)
+
+    yesno_option = create_option(
+        name="small",
+        description="Trueにすると文字で返答します",
+        option_type=5,
+        required=False,
+    )
+
+    @slash_client.slash(
+        name="yesno",
+        guild_ids=servers,
+        description="ダイス君がYESかNOで決断してくれます",
+        options=[yesno_option]
+    )
+    async def _slash_yesno(ctx: SlashContext, small: bool = False):
+        result = loads(get("https://yesno.wtf/api").text)
+        if small:
+            result_text: str = result["answer"]
+            await ctx.send(content=result_text.capitalize()+"!")
+        else:
+            await ctx.send(content=result["image"])
 
     touhou_option = create_option(
         name="repeats",
