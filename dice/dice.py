@@ -141,14 +141,14 @@ def run():
     yesno_option = create_option(
         name="small",
         description="Trueにすると文字で返答します",
-        option_type=5,
-        required=False,
+        option_type=bool,
+        required=False
     )
 
     @slash_client.slash(
         name="yesno",
         guild_ids=servers,
-        description="ダイス君がYESかNOで決断してくれます",
+        description="ダイス君がYesかNoで決断してくれます",
         options=[yesno_option]
     )
     async def _slash_yesno(ctx: SlashContext, small: bool = False):
