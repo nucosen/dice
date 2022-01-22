@@ -1,4 +1,5 @@
 # discord-dice
+
 Simple dice bot for discord.
 
 ## Invite link
@@ -7,4 +8,4 @@ Simple dice bot for discord.
 
 ## Install
 
-`pip install https://github.com/nucosen/dice/releases/download/v5.0.1/dice-5.0.1.tar.gz`
+`pip install https://github.com/nucosen/dice/releases/download/v5.1.0/dice-5.1.0.tar.gz`
