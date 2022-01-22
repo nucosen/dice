@@ -13,7 +13,6 @@ from discord.ext import commands
 from discord_slash import SlashCommand, SlashContext
 
 
-# FIXME ロギングレベル変更中 <<< REMOVE BEFORE DEPLOY >>>
 basicConfig(
     format='{asctime} [{levelname:4}] {message}',
     style='{',
@@ -60,13 +59,22 @@ def run():
         if client.user in message.mentions:
             await message.add_reaction(choice(emoji_list))
             embed = discord.Embed(
-                title="「ダイス君 v5.0.1」で出来ること",
+                title="「ダイス君 v5.1.0」で出来ること",
                 description=Guide,
                 color=discord.Colour.blue()
             )
             logger.info("Dice-kun is active !")
             await message.channel.send(embed=embed)
             return
+
+        if match := re.search("^!(.+)", message.content):
+            box = match.groups()[0].strip().split(" ")
+            embed = discord.Embed(
+                title="抽選結果",
+                description=choice(box),
+                color=discord.Color.green()
+            )
+            await message.channel.send(reference=message, mention_author=True, embed=embed)
 
         if match := re.search("([0-9]{1,4})d([0-9]{1,4})!", message.content):
             await message.add_reaction("\N{GAME DIE}")
@@ -92,7 +100,7 @@ def run():
             )
             await message.channel.send(reference=message, mention_author=True, embed=embed)
 
-        match = re.match("^SAN([0-9]+)$", message.content)
+        match = re.match("^san([0-9]+)$", str(message.content).lower())
         if match:
             border = int(match.groups()[0])
             dice = randint(1, 100)
