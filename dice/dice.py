@@ -7,7 +7,7 @@ import discord
 import re
 from random import randint, choice
 import os
-from logging import basicConfig, getLogger
+from logging import basicConfig, getLogger, INFO
 from decouple import UndefinedValueError, AutoConfig
 from discord.ext import commands
 from discord_slash import SlashCommand, SlashContext
@@ -16,7 +16,7 @@ from discord_slash import SlashCommand, SlashContext
 basicConfig(
     format='{asctime} [{levelname:4}] {message}',
     style='{',
-    # level=INFO
+    level=INFO
 )
 
 
@@ -34,7 +34,7 @@ def run():
         exit()
 
     try:
-        servers: List = config("DISCORD_DICE_SERVERS").split(",")
+        servers: List = str(config("DISCORD_DICE_SERVERS")).split(",")
     except UndefinedValueError:
         logger.warn("No server is allowed to run slash command.")
         servers = []
@@ -49,12 +49,9 @@ def run():
             logger.info(str(server))
         logger.info("--- Arrowed servers list end ---")
 
+    # """
     @client.event
     async def on_message(message):
-
-        if isinstance(message, discord.Message):
-            if message.author.bot:
-                return
 
         if client.user in message.mentions:
             await message.add_reaction(choice(emoji_list))
@@ -68,7 +65,7 @@ def run():
             return
 
         if match := re.search("^!(.+)", message.content):
-            box = match.groups()[0].replace("　"," ").strip().split(" ")
+            box = match.groups()[0].replace("　", " ").strip().split(" ")
             embed = discord.Embed(
                 title="抽選結果",
                 description=choice(box),
@@ -180,8 +177,8 @@ def run():
         description="東方Projectからキャラクターを表示します",
         options=[touhou_option]
     )
-    async def _slash_secret(ctx: SlashContext, repeats: int = 1):
-        results: List(str) = []
+    async def _slash_touhou(ctx: SlashContext, repeats: int = 1):
+        results: List[str] = []
         if repeats < 1 or repeats >= 100:
             repeats = 1
             results.append("`回数指定は無視されました。1以上100以下の値を指定してください。`")
@@ -257,5 +254,5 @@ def run():
             color=discord.Colour.blue()
         )
         await ctx.send(embed=embed)
-
+    # """
     client.run(TOKEN)
