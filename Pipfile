@@ -7,8 +7,8 @@ name = "pypi"
 discord = "*"
 aiohttp = ">=3.7.4"
 python-decouple = "*"
-discord-py-interactions = "*"
 requests = "*"
+discord-py-interactions = "*"
 discord-py-slash-command = "*"
 
 [dev-packages]
