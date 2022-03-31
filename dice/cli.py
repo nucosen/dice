@@ -1,3 +1,9 @@
 def execute():
-    from dice import dice
+    try:
+        from dice import dice
+    except ImportError:
+        import dice
     dice.run()
+
+if __name__ == "__main__":
+    execute()
