@@ -1,6 +1,7 @@
 # discord-dice
 
 Simple dice bot for discord.
+（問い合わせはDiscordで「 `NUCO#8872` 」まで。
 
 ## Invite link
 
