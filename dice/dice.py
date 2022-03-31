@@ -1,6 +1,6 @@
 from json import loads
 from requests import get
-from discord_slash.utils.manage_commands import create_option
+from dice.discord_slash.utils.manage_commands import create_option
 try:
     from dice.text import *
 except ModuleNotFoundError:
