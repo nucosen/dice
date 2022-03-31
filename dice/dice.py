@@ -58,7 +58,7 @@ def run():
         if client.user in message.mentions:
             await message.add_reaction(choice(emoji_list))
             embed = discord.Embed(
-                title="「ダイス君 v5.1.2」で出来ること",
+                title="「ダイス君 v5.1.5」で出来ること",
                 description=Guide,
                 color=discord.Colour.blue()
             )
