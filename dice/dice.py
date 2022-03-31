@@ -1,7 +1,10 @@
 from json import loads
 from requests import get
 from discord_slash.utils.manage_commands import create_option
-from dice.text import *
+try:
+    from dice.text import *
+except ModuleNotFoundError:
+    from text import *
 from typing import List
 import discord
 import re
@@ -49,7 +52,6 @@ def run():
             logger.info(str(server))
         logger.info("--- Arrowed servers list end ---")
 
-    # """
     @client.event
     async def on_message(message):
 
@@ -124,7 +126,7 @@ def run():
                     title = "クリティカル"
                 color = discord.Colour.green()
             else:
-                title = f"失敗"
+                title = "失敗"
                 if dice >= 96:
                     title = "ファンブル"
                 color = discord.Colour.red()
@@ -195,7 +197,7 @@ def run():
     @slash_client.slash(
         name="omikuji",
         guild_ids=servers,
-        description="今年の運勢を占ってみましょう！"
+        description="今日の運勢を占ってみましょう！"
     )
     async def _slash_omikuji(ctx: SlashContext):
         total = choice(omikuji)
@@ -205,7 +207,7 @@ def run():
             choice(unsei), choice(unsei), choice(unsei)
         )
         embed = discord.Embed(
-            title="【おみくじ】",
+            title="【今日の運勢】",
             description=result,
             color=discord.Colour.green()
         )
@@ -254,5 +256,5 @@ def run():
             color=discord.Colour.blue()
         )
         await ctx.send(embed=embed)
-    # """
+
     client.run(TOKEN)
