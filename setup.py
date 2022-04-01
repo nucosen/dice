@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="dice",
-    version='5.2.0',
+    version='5.2.1',
     description='Discord dice bot',
     author='NUCOSen Management Committee',
     author_email='info@nucosen.live',
