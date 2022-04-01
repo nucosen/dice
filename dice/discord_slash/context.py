@@ -1,6 +1,6 @@
 import datetime
 import typing
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Optional
 from warnings import warn
 
 import discord
@@ -57,10 +57,13 @@ class InteractionContext:
         self.deferred = False
         self.responded = False
         self.values = _json["data"]["values"] if "values" in _json["data"] else None
-        self._deferred_hidden = False  # To check if the patch to the deferred response matches
-        self.guild_id = int(_json["guild_id"]) if "guild_id" in _json.keys() else None
+        # To check if the patch to the deferred response matches
+        self._deferred_hidden = False
+        self.guild_id = int(
+            _json["guild_id"]) if "guild_id" in _json.keys() else None
         self.author_id = int(
-            _json["member"]["user"]["id"] if "member" in _json.keys() else _json["user"]["id"]
+            _json["member"]["user"]["id"] if "member" in _json.keys(
+            ) else _json["user"]["id"]
         )
         self.channel_id = int(_json["channel_id"])
         if self.guild:
@@ -68,10 +71,13 @@ class InteractionContext:
                 data=_json["member"], state=self.bot._connection, guild=self.guild
             )
         elif self.guild_id:
-            self.author = discord.User(data=_json["member"]["user"], state=self.bot._connection)
+            self.author = discord.User(
+                data=_json["member"]["user"], state=self.bot._connection)
         else:
-            self.author = discord.User(data=_json["user"], state=self.bot._connection)
-        self.created_at: datetime.datetime = snowflake_time(int(self.interaction_id))
+            self.author = discord.User(
+                data=_json["user"], state=self.bot._connection)
+        self.created_at: datetime.datetime = snowflake_time(
+            int(self.interaction_id))
 
     @property
     def _deffered_hidden(self):
@@ -93,12 +99,14 @@ class InteractionContext:
 
     @property
     def deffered(self):
-        warn("`deffered` as been renamed to `deferred`.", DeprecationWarning, stacklevel=2)
+        warn("`deffered` as been renamed to `deferred`.",
+             DeprecationWarning, stacklevel=2)
         return self.deferred
 
     @deffered.setter
     def deffered(self, value):
-        warn("`deffered` as been renamed to `deferred`.", DeprecationWarning, stacklevel=2)
+        warn("`deffered` as been renamed to `deferred`.",
+             DeprecationWarning, stacklevel=2)
         self.deferred = value
 
     @property
@@ -145,7 +153,8 @@ class InteractionContext:
         :param hidden: Whether the deferred response should be ephemeral . Default ``False``.
         """
         if self.deferred or self.responded:
-            raise error.AlreadyResponded("You have already responded to this command!")
+            raise error.AlreadyResponded(
+                "You have already responded to this command!")
         base = {"type": 5}
         if hidden:
             base["data"] = {"flags": 64}
@@ -157,15 +166,15 @@ class InteractionContext:
         self,
         content: str = "",
         *,
-        embed: discord.Embed = None,
-        embeds: typing.List[discord.Embed] = None,
+        embed: Optional[discord.Embed] = None,
+        embeds: Optional[typing.List[discord.Embed]] = None,
         tts: bool = False,
-        file: discord.File = None,
-        files: typing.List[discord.File] = None,
-        allowed_mentions: discord.AllowedMentions = None,
+        file: Optional[discord.File] = None,
+        files: Optional[typing.List[discord.File]] = None,
+        allowed_mentions: Optional[discord.AllowedMentions] = None,
         hidden: bool = False,
-        delete_after: float = None,
-        components: typing.List[dict] = None,
+        delete_after: Optional[float] = None,
+        components: Optional[typing.List[dict]] = None,
     ) -> model.SlashMessage:
         """
         Sends response of the interaction.
@@ -198,16 +207,19 @@ class InteractionContext:
         :return: Union[discord.Message, dict]
         """
         if embed and embeds:
-            raise error.IncorrectFormat("You can't use both `embed` and `embeds`!")
+            raise error.IncorrectFormat(
+                "You can't use both `embed` and `embeds`!")
         if embed:
             embeds = [embed]
         if embeds:
             if not isinstance(embeds, list):
                 raise error.IncorrectFormat("Provide a list of embeds.")
             elif len(embeds) > 10:
-                raise error.IncorrectFormat("Do not provide more than 10 embeds.")
+                raise error.IncorrectFormat(
+                    "Do not provide more than 10 embeds.")
         if file and files:
-            raise error.IncorrectFormat("You can't use both `file` and `files`!")
+            raise error.IncorrectFormat(
+                "You can't use both `file` and `files`!")
         if file:
             files = [file]
         if delete_after and hidden:
@@ -219,7 +231,8 @@ class InteractionContext:
 
         if allowed_mentions is not None:
             if self.bot.allowed_mentions is not None:
-                allowed_mentions = self.bot.allowed_mentions.merge(allowed_mentions).to_dict()
+                allowed_mentions = self.bot.allowed_mentions.merge(
+                    allowed_mentions).to_dict()
             else:
                 allowed_mentions = allowed_mentions.to_dict()
         else:
@@ -448,7 +461,8 @@ class ComponentContext(InteractionContext):
         self.component_type = _json["data"]["component_type"]
         super().__init__(_http=_http, _json=_json, _discord=_discord, logger=logger)
         self.origin_message = None
-        self.origin_message_id = int(_json["message"]["id"]) if "message" in _json.keys() else None
+        self.origin_message_id = int(
+            _json["message"]["id"]) if "message" in _json.keys() else None
 
         self.component = None
 
@@ -474,12 +488,14 @@ class ComponentContext(InteractionContext):
         :param ignore: Whether to just ignore and not edit or send response. Using this can avoid showing interaction loading state. Default ``False``.
         """
         if self.deferred or self.responded:
-            raise error.AlreadyResponded("You have already responded to this command!")
+            raise error.AlreadyResponded(
+                "You have already responded to this command!")
 
         base = {"type": 6 if edit_origin or ignore else 5}
 
         if edit_origin and ignore:
-            raise error.IncorrectFormat("'edit_origin' and 'ignore' are mutually exclusive")
+            raise error.IncorrectFormat(
+                "'edit_origin' and 'ignore' are mutually exclusive")
 
         if hidden:
             if edit_origin:
@@ -567,7 +583,8 @@ class ComponentContext(InteractionContext):
             if not isinstance(embeds, list):
                 raise error.IncorrectFormat("Provide a list of embeds.")
             if len(embeds) > 10:
-                raise error.IncorrectFormat("Do not provide more than 10 embeds.")
+                raise error.IncorrectFormat(
+                    "Do not provide more than 10 embeds.")
             _resp["embeds"] = [e.to_dict() for e in embeds]
 
         try:
@@ -576,7 +593,8 @@ class ComponentContext(InteractionContext):
             pass
         else:
             if "embeds" in _resp:
-                raise error.IncorrectFormat("You can't use both `embed` and `embeds`!")
+                raise error.IncorrectFormat(
+                    "You can't use both `embed` and `embeds`!")
 
             if embed is None:
                 _resp["embeds"] = []
@@ -587,7 +605,8 @@ class ComponentContext(InteractionContext):
         files = fields.get("files")
 
         if files is not None and file is not None:
-            raise error.IncorrectFormat("You can't use both `file` and `files`!")
+            raise error.IncorrectFormat(
+                "You can't use both `file` and `files`!")
         if file:
             files = [file]
 
@@ -653,12 +672,15 @@ class MenuContext(InteractionContext):
         logger,
     ):
         super().__init__(_http=_http, _json=_json, _discord=_discord, logger=logger)
-        self.name = self.command = self.invoked_with = _json["data"]["name"]  # This exists.
+        # This exists.
+        self.name = self.command = self.invoked_with = _json["data"]["name"]
         self.context_type = _json["type"]
-        self._resolved = self.data["resolved"] if "resolved" in self.data.keys() else None
+        self._resolved = self.data["resolved"] if "resolved" in self.data.keys(
+        ) else None
         self.target_message = None
         self.target_author = None
-        self.target_id = self.data["target_id"] if "target_id" in self.data.keys() else None
+        self.target_id = self.data["target_id"] if "target_id" in self.data.keys(
+        ) else None
 
         if self._resolved is not None:
             try:
@@ -717,12 +739,14 @@ class MenuContext(InteractionContext):
         :param ignore: Whether to just ignore and not edit or send response. Using this can avoid showing interaction loading state. Default ``False``.
         """
         if self.deferred or self.responded:
-            raise error.AlreadyResponded("You have already responded to this command!")
+            raise error.AlreadyResponded(
+                "You have already responded to this command!")
 
         base = {"type": 6 if edit_origin or ignore else 5}
 
         if edit_origin and ignore:
-            raise error.IncorrectFormat("'edit_origin' and 'ignore' are mutually exclusive")
+            raise error.IncorrectFormat(
+                "'edit_origin' and 'ignore' are mutually exclusive")
 
         if hidden:
             if edit_origin:

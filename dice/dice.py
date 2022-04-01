@@ -58,7 +58,7 @@ def run():
         if client.user in message.mentions:
             await message.add_reaction(choice(emoji_list))
             embed = discord.Embed(
-                title="「ダイス君 v5.1.5」で出来ること",
+                title="「ダイス君 v5.2.0」で出来ること",
                 description=Guide,
                 color=discord.Colour.blue()
             )
@@ -144,6 +144,15 @@ def run():
     )
     async def _slash_secret(ctx: SlashContext):
         await ctx.send(content="結果：`{0}`".format(randint(1, 100)), hidden=True)
+
+    @slash_client.slash(
+        name="uso",
+        guild_ids=servers,
+        description="ランダムでウソが出ます"
+    )
+    async def _slash_aprilfool(ctx: SlashContext):
+        result = choice(uso)
+        await ctx.send(content="**【ウソ】** " + result)
 
     yesno_option = create_option(
         name="small",
