@@ -11,12 +11,12 @@ Simple dice bot for discord.
 
 <!-- NOTE : Version here -->
 
-`pip install https://github.com/nucosen/dice/releases/download/v6.0.0/dice-6.0.0.tar.gz`
+`pip install https://github.com/nucosen/dice/releases/download/v6.0.0/dice-6.0.1.tar.gz`
 
 or
 
-`pip3 install https://github.com/nucosen/dice/releases/download/v6.0.0/dice-6.0.0.tar.gz`
+`pip3 install https://github.com/nucosen/dice/releases/download/v6.0.0/dice-6.0.1.tar.gz`
 
 or
 
-`pip3.8 install https://github.com/nucosen/dice/releases/download/v6.0.0/dice-6.0.0.tar.gz`
+`pip3.8 install https://github.com/nucosen/dice/releases/download/v6.0.0/dice-6.0.1.tar.gz`
