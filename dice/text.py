@@ -35,7 +35,6 @@ Guide = """```\
 - 「/touhou」
 - 「/yesno」
     - YesかNoか画像で返します
-- 「/aprilfool」
 - 「!aaa bbb ccc」
     - aaaなどは好きな文字。
       半角スペース区切りで、書かれたものの中から1つ選びます
