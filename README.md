@@ -1,4 +1,4 @@
-[![status](https://img.shields.io/badge/dynamic/json?color=informational&label=status&query=%24.status.indicator&url=https%3A%2F%2Fpz4d8fcs9qhw.statuspage.io%2Fapi%2Fv2%2Fstatus.json)](https://nucosen.statuspage.io/)
+[![status](https://img.shields.io/badge/dynamic/json?color=informational&label=status&query=%24.components.0.status&url=https%3A%2F%2Fpz4d8fcs9qhw.statuspage.io%2Fapi%2Fv2%2Fcomponents.json)](https://nucosen.statuspage.io/)
 
 # discord-dice
 
