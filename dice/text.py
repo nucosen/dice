@@ -42,6 +42,7 @@ Guide = """```\
 - 「/secret」
 - 「/omikuji」
 - 「/touhou」
+- 「/shindan」
 - 「/yesno」
     - YesかNoか画像で返します
 - 「!aaa bbb ccc」

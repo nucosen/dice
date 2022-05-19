@@ -1,10 +1,13 @@
 from json import loads
-from requests import get
-from dice.discord_slash.utils.manage_commands import create_option
+from requests import get, post
 try:
     from dice.text import *
+    from dice.discord_slash import SlashCommand, SlashContext
+    from dice.discord_slash.utils.manage_commands import create_option
 except ModuleNotFoundError:
     from text import *
+    from discord_slash import SlashCommand, SlashContext
+    from discord_slash.utils.manage_commands import create_option
 from typing import List
 import discord
 import re
@@ -13,7 +16,6 @@ import os
 from logging import basicConfig, getLogger, INFO
 from decouple import UndefinedValueError, AutoConfig
 from discord.ext import commands
-from dice.discord_slash import SlashCommand, SlashContext
 from time import sleep
 
 basicConfig(
@@ -32,7 +34,7 @@ def run():
     # NOTE : Version here
     logger.info(dicelogo)
     logger.info("Starting : Dice-kun v6.0.1")
-    for count in range(5,0,-1):
+    for count in range(5, 0, -1):
         logger.info(str(count) + "...")
         sleep(1)
 
@@ -66,7 +68,7 @@ def run():
             await message.add_reaction(choice(emoji_list))
             # NOTE : Version here
             embed = discord.Embed(
-                title="「ダイス君 v6.0.1」で出来ること",
+                title="「ダイス君 v6.1.0」で出来ること",
                 description=Guide,
                 color=discord.Colour.blue()
             )
@@ -144,6 +146,73 @@ def run():
                 color=color
             )
             await message.channel.send(reference=message, mention_author=True, embed=embed)
+
+    shindan_option = create_option(
+        name="name",
+        description="診断名（診断メーカーのタイトル）",
+        option_type=str,
+        required=True
+    )
+
+    @slash_client.slash(
+        name="shindan",
+        guild_ids=servers,
+        description="診断メーカーで遊べます",
+        options=[shindan_option]
+    )
+    async def _slash_shindan(ctx: SlashContext, name: str):
+        headers = {
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:101.0) Gecko/20100101 Firefox/101.0"
+        }
+        search = get(
+            "https://shindanmaker.com/list/search?q={0}".format(name),
+            headers=headers
+        )
+        search.raise_for_status()
+        match = re.search(
+            "https?://shindanmaker.com/([0-9]+)", str(search.text))
+        if "該当する診断はありませんでした。" in search.text or match is None:
+            await ctx.send(content="該当する診断はありませんでした。", hidden=True)
+            return
+        url = str(match.group())
+        shindan = get(
+            url,
+            headers=headers
+        )
+        shindan.raise_for_status()
+        match = re.search(
+            '<input type="hidden" name="_token" value="([^"]+)">',
+            str(shindan.text)
+        )
+        if match is None:
+            raise Exception("トークン取得失敗")
+        name = str(ctx.author)[:-5]
+        token = match.groups()[0]
+        result = post(
+            url,
+            params={
+                "_token":token,
+                "shindanName":name,
+            },
+            headers=headers,
+            cookies=shindan.cookies
+        )
+        shindan_result = re.search(
+            '<textarea id="share-copytext-shindanresult-textarea" style="display: none;">([^<]+)</textarea>',
+            result.text
+        )
+        title = re.search(
+            '<title>([^<]+)</title>',
+            result.text
+        )
+        if shindan_result is None or title is None:
+            raise Exception("診断の結果が出ませんでした。")
+        embed = discord.Embed(
+            title=title.groups()[0],
+            description=re.sub("&(?:[^;]+);","",shindan_result.groups()[0].replace("&#10;","\n")),
+            color=discord.Colour.blue()
+        )
+        await ctx.send(embed=embed)
 
     @slash_client.slash(
         name="secret",
@@ -266,3 +335,7 @@ def run():
         await ctx.send(embed=embed)
 
     client.run(TOKEN)
+
+
+if __name__ == "__main__":
+    run()
