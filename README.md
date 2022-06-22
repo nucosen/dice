@@ -1,3 +1,4 @@
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/d466b4fb7c4540bab18735f3ebabea98)](https://www.codacy.com/gh/nucosen/dice/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=nucosen/dice&amp;utm_campaign=Badge_Grade)
 
 # discord-dice
 
