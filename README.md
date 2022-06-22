@@ -1,6 +1,8 @@
 
 # discord-dice
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/c102c37fa6a64999ac7a03976a96e9d2)](https://app.codacy.com/gh/nucosen/dice?utm_source=github.com&utm_medium=referral&utm_content=nucosen/dice&utm_campaign=Badge_Grade_Settings)
+
 Simple dice bot for discord.
 （問い合わせはDiscordで「 `NUCO#8872` 」まで。
 
