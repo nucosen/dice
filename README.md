@@ -11,14 +11,5 @@ Simple dice bot for discord.
 
 ## Install
 
-<!-- NOTE : Version here -->
-
-`pip install https://github.com/nucosen/dice/releases/download/v6.1.0/dice-6.1.0.tar.gz`
-
-or
-
-`pip3 install https://github.com/nucosen/dice/releases/download/v6.1.0/dice-6.1.0.tar.gz`
-
-or
-
-`pip3.8 install https://github.com/nucosen/dice/releases/download/v6.1.0/dice-6.1.0.tar.gz`
+リリース画面よ最新版のtar.gzファイルをpipでインストールしてください。
+Pythonは3.8以上必須。
