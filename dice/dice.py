@@ -18,6 +18,7 @@ from decouple import UndefinedValueError, AutoConfig
 from discord.ext import commands
 from time import sleep
 import pyotp
+import base64
 
 basicConfig(
     format='{asctime} [{levelname:4}] {message}',
@@ -49,7 +50,7 @@ def run():
     try:
         totp = pyotp.TOTP(str(config("TOTP")))
     except UndefinedValueError:
-        totp = pyotp.TOTP("SAMPLE")
+        totp = pyotp.TOTP("MA==")
 
     try:
         servers: List = str(config("DISCORD_DICE_SERVERS")).split(",")
