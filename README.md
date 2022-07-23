@@ -1,4 +1,4 @@
-[![status](https://img.shields.io/badge/dynamic/json?color=informational&label=status&query=%24.components.0.status&url=https%3A%2F%2Fpz4d8fcs9qhw.statuspage.io%2Fapi%2Fv2%2Fcomponents.json)](https://nucosen.statuspage.io/)
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/d466b4fb7c4540bab18735f3ebabea98)](https://www.codacy.com/gh/nucosen/dice/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=nucosen/dice&amp;utm_campaign=Badge_Grade)
 
 # discord-dice
 
