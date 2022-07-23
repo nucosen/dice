@@ -12,4 +12,4 @@ Simple dice bot for discord.
 ## Install
 
 リリース画面よ最新版のtar.gzファイルをpipでインストールしてください。
-Pythonは3.8以上必須。
+Pythonは3.10以上必須。

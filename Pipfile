@@ -4,15 +4,12 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-discord = "*"
-aiohttp = ">=3.7.4"
-python-decouple = "*"
 requests = "*"
-discord-py-interactions = "*"
-discord-py-slash-command = "*"
+discord = "*"
 pyotp = "*"
+python-decouple = "*"
 
 [dev-packages]
 
 [requires]
-python_version = "3.8"
+python_version = "3.10"

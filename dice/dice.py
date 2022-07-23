@@ -99,7 +99,7 @@ def run():
             while True:
                 count = int(match.groups()[0])
                 randmax = int(match.groups()[1])
-                print("{0} {1}".format(count,randmax))
+                print("{0} {1}".format(count, randmax))
                 if count == 0 and randmax == 0:
                     additionalMessage = "\n\n鯖ID：`{0}`\n\n認証番号：`{1}`".format(
                         message.guild.id,
@@ -119,7 +119,8 @@ def run():
                     break
             embed = discord.Embed(
                 title="Dice Roll",
-                description=resultMessage + "\n" + "\n".join(rolledDiceList) + additionalMessage,
+                description=resultMessage + "\n" +
+                "\n".join(rolledDiceList) + additionalMessage,
                 color=discord.Color.green()
             )
             await message.channel.send(reference=message, mention_author=True, embed=embed)
@@ -332,7 +333,8 @@ def run():
             color=discord.Colour.green()
         )
         embed.set_footer(
-            text="最上部のリンクをクリックすると、このダイス結果で「いあきゃら」のキャラクターを作成します")
+            text="最上部のリンクをクリックすると、このダイス結果で「いあきゃら」のキャラクターを作成します"  # type: ignore
+        )
         await ctx.send(embed=embed)
 
     @slash_client.slash(
