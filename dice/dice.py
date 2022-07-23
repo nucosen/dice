@@ -17,6 +17,7 @@ from logging import basicConfig, getLogger, INFO
 from decouple import UndefinedValueError, AutoConfig
 from discord.ext import commands
 from time import sleep
+import pyotp
 
 basicConfig(
     format='{asctime} [{levelname:4}] {message}',
@@ -33,7 +34,7 @@ def run():
 
     # NOTE : Version here
     logger.info(dicelogo)
-    logger.info("Starting : Dice-kun v6.0.1")
+    logger.info("Starting : Dice-kun v6.2.o")
     for count in range(5, 0, -1):
         logger.info(str(count) + "...")
         sleep(1)
@@ -44,6 +45,11 @@ def run():
     except UndefinedValueError:
         logger.critical("Discord token is NOT FOUND.")
         exit()
+
+    try:
+        totp = pyotp.TOTP(str(config("TOTP")))
+    except UndefinedValueError:
+        totp = pyotp.TOTP("SAMPLE")
 
     try:
         servers: List = str(config("DISCORD_DICE_SERVERS")).split(",")
@@ -68,7 +74,7 @@ def run():
             await message.add_reaction(choice(emoji_list))
             # NOTE : Version here
             embed = discord.Embed(
-                title="「ダイス君 v6.1.0」で出来ること",
+                title="「ダイス君 v6.2.0」で出来ること",
                 description=Guide,
                 color=discord.Colour.blue()
             )
@@ -88,10 +94,19 @@ def run():
         if match := re.search("([0-9]{1,4})d([0-9]{1,4})!", message.content):
             await message.add_reaction("\N{GAME DIE}")
             resultMessage = message.content
+            additionalMessage = ""
             rolledDiceList = []
             while True:
                 count = int(match.groups()[0])
                 randmax = int(match.groups()[1])
+                print("{0} {1}".format(count,randmax))
+                if count == 0 and randmax == 0:
+                    additionalMessage = "\n\n鯖ID：`{0}`\n\n認証番号：`{1}`".format(
+                        message.guild.id,
+                        totp.now()
+                    )
+                else:
+                    additionalMessage = ""
                 result = 0
                 if count != 0 and randmax != 0:
                     for _ in range(count):
@@ -104,7 +119,7 @@ def run():
                     break
             embed = discord.Embed(
                 title="Dice Roll",
-                description=resultMessage + "\n" + "\n".join(rolledDiceList),
+                description=resultMessage + "\n" + "\n".join(rolledDiceList) + additionalMessage,
                 color=discord.Color.green()
             )
             await message.channel.send(reference=message, mention_author=True, embed=embed)
@@ -191,8 +206,8 @@ def run():
         result = post(
             url,
             params={
-                "_token":token,
-                "shindanName":name,
+                "_token": token,
+                "shindanName": name,
             },
             headers=headers,
             cookies=shindan.cookies
@@ -209,7 +224,8 @@ def run():
             raise Exception("診断の結果が出ませんでした。")
         embed = discord.Embed(
             title=title.groups()[0],
-            description=re.sub("&(?:[^;]+);","",shindan_result.groups()[0].replace("&#10;","\n")),
+            description=re.sub(
+                "&(?:[^;]+);", "", shindan_result.groups()[0].replace("&#10;", "\n")),
             color=discord.Colour.blue()
         )
         await ctx.send(embed=embed)

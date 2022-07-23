@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 # NOTE : Version here
 setup(
     name="dice",
-    version='6.1.0',
+    version='6.2.0',
     description='Discord dice bot',
     author='NUCOSen Management Committee',
     author_email='info@nucosen.live',

@@ -10,6 +10,7 @@ python-decouple = "*"
 requests = "*"
 discord-py-interactions = "*"
 discord-py-slash-command = "*"
+pyotp = "*"
 
 [dev-packages]
 
