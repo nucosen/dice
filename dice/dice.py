@@ -35,7 +35,7 @@ def run():
 
     # NOTE : Version here
     logger.info(dicelogo)
-    logger.info("Starting : Dice-kun v6.2.o")
+    logger.info("Starting : Dice-kun v6.2.1")
     for count in range(5, 0, -1):
         logger.info(str(count) + "...")
         sleep(1)
@@ -50,7 +50,7 @@ def run():
     try:
         totp = pyotp.TOTP(str(config("TOTP")))
     except UndefinedValueError:
-        totp = pyotp.TOTP("MA==")
+        totp = pyotp.TOTP("SAMPLEsample")
 
     try:
         servers: List = str(config("DISCORD_DICE_SERVERS")).split(",")
@@ -75,7 +75,7 @@ def run():
             await message.add_reaction(choice(emoji_list))
             # NOTE : Version here
             embed = discord.Embed(
-                title="「ダイス君 v6.2.0」で出来ること",
+                title="「ダイス君 v6.2.1」で出来ること",
                 description=Guide,
                 color=discord.Colour.blue()
             )
@@ -100,10 +100,9 @@ def run():
             while True:
                 count = int(match.groups()[0])
                 randmax = int(match.groups()[1])
-                print("{0} {1}".format(count, randmax))
                 if count == 0 and randmax == 0:
                     additionalMessage = "\n\n鯖ID：`{0}`\n\n認証番号：`{1}`".format(
-                        message.guild.id,
+                        message.guild.id if message.guild is not None else "（なし）",
                         totp.now()
                     )
                 else:
