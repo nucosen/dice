@@ -9,7 +9,7 @@ Simple dice bot for discord.
 
 [Here!](https://discord.com/api/oauth2/authorize?client_id=855433313061044224&permissions=8&scope=bot%20applications.commands)
 
-## Install
+## Server Install
 
-リリース画面よ最新版のtar.gzファイルをpipでインストールしてください。
+リリース画面より最新版のtar.gzファイルをpipでインストールしてください。
 Pythonは3.10以上必須。
