@@ -1,11 +1,11 @@
 from json import loads
 from requests import get, post
 try:
-    from dice.text import *
+    import dice.text as text
     from dice.discord_slash import SlashCommand, SlashContext
     from dice.discord_slash.utils.manage_commands import create_option
 except ModuleNotFoundError:
-    from text import *
+    import text
     from discord_slash import SlashCommand, SlashContext
     from discord_slash.utils.manage_commands import create_option
 from typing import List
@@ -18,7 +18,6 @@ from decouple import UndefinedValueError, AutoConfig
 from discord.ext import commands
 from time import sleep
 import pyotp
-import base64
 
 basicConfig(
     format='{asctime} [{levelname:4}] {message}',
@@ -34,7 +33,7 @@ def run():
     slash_client = SlashCommand(client, sync_commands=True)
 
     # NOTE : Version here
-    logger.info(dicelogo)
+    logger.info(text.diceLogo)
     logger.info("Starting : Dice-kun v6.2.1")
     for count in range(5, 0, -1):
         logger.info(str(count) + "...")
@@ -72,11 +71,11 @@ def run():
     async def on_message(message):
 
         if client.user in message.mentions:
-            await message.add_reaction(choice(emoji_list))
+            await message.add_reaction(choice(text.emoji_list))
             # NOTE : Version here
             embed = discord.Embed(
                 title="「ダイス君 v6.2.1」で出来ること",
-                description=Guide,
+                description=text.Guide,
                 color=discord.Colour.blue()
             )
             logger.info("Dice-kun is active !")
@@ -99,8 +98,8 @@ def run():
             rolledDiceList = []
             while True:
                 count = int(match.groups()[0])
-                randmax = int(match.groups()[1])
-                if count == 0 and randmax == 0:
+                randMax = int(match.groups()[1])
+                if count == 0 and randMax == 0:
                     additionalMessage = "\n\n鯖ID：`{0}`\n\n認証番号：`{1}`".format(
                         message.guild.id if message.guild is not None else "（なし）",
                         totp.now()
@@ -108,9 +107,9 @@ def run():
                 else:
                     additionalMessage = ""
                 result = 0
-                if count != 0 and randmax != 0:
+                if count != 0 and randMax != 0:
                     for _ in range(count):
-                        result += randint(1, randmax)
+                        result += randint(1, randMax)
                 resultMessage = resultMessage.replace(
                     match.group(), f" `{result}` ", 1
                 )
@@ -279,7 +278,7 @@ def run():
             repeats = 1
             results.append("`回数指定は無視されました。1以上100以下の値を指定してください。`")
         for _ in range(repeats):
-            results.append(choice(touhou_character))
+            results.append(choice(text.touhou_character))
         result = "\n".join(results)
         embed = discord.Embed(
             title="東方キャラダイス",
@@ -294,11 +293,11 @@ def run():
         description="今日の運勢を占ってみましょう！"
     )
     async def _slash_omikuji(ctx: SlashContext):
-        total = choice(omikuji)
+        total = choice(text.omikuji)
         result = "{0}\n願望{1}　仕事{2}　恋愛{3}\n健康{4}　金運{5}　旅行{6}".format(
             total,
-            choice(unsei), choice(unsei), choice(unsei),
-            choice(unsei), choice(unsei), choice(unsei)
+            choice(text.unsei), choice(text.unsei), choice(text.unsei),
+            choice(text.unsei), choice(text.unsei), choice(text.unsei)
         )
         embed = discord.Embed(
             title="【今日の運勢】",
@@ -321,7 +320,7 @@ def run():
         SIZ = randint(1, 6) + randint(1, 6) + 6
         INT = randint(1, 6) + randint(1, 6) + 6
         EDU = randint(1, 6) + randint(1, 6) + randint(1, 6) + 3
-        result = CoC_CharacterSheet.format(
+        result = text.CoC_CharacterSheet.format(
             STR, CON, POW, DEX, APP, SIZ, INT, EDU,
             POW*5, POW*5, INT*5, EDU*5, (CON+SIZ)//2,
             EDU*20, INT*10
@@ -344,7 +343,7 @@ def run():
     )
     async def _slash_tokucho(ctx: SlashContext):
         roll = (0, randint(1, 6), randint(1, 10))
-        result = tokucho[roll[1]][roll[2]]
+        result = text.tokucho[roll[1]][roll[2]]
         embed = discord.Embed(
             title=f"特徴表ロール結果：{roll[1]}-{roll[2]}『{result[0]}』",
             description=result[1],
