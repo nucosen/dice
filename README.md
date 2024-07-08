@@ -3,7 +3,7 @@
 # discord-dice
 
 Simple dice bot for discord.
-（問い合わせはDiscordで「 `NUCO#8872` 」まで。
+（問い合わせはDiscordで「 `NUCO#5124` 」まで。
 
 ## Invite link
 
