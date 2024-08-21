@@ -1,3 +1,5 @@
+version = "6.4.4"
+
 diceLogo = """
 
 ██████  ██  ██████ ███████       ██   ██ ██    ██ ███    ██
@@ -6,8 +8,6 @@ diceLogo = """
 ██   ██ ██ ██      ██            ██  ██  ██    ██ ██  ██ ██
 ██████  ██  ██████ ███████       ██   ██  ██████  ██   ████
 """
-
-version = open("VERSION.txt", encoding="utf-8").read()
 
 CoC_CharacterSheet = """```\
 STR（3d6）  ：{0}

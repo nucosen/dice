@@ -1,2 +1,2 @@
 include requirements.txt
-include VERSION.txt
+include dice/text.py

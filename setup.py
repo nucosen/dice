@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="dice",
-    version=open("VERSION.txt", encoding="utf-8").read(),
+    version=open("dice/text.py", encoding="utf-8").read().splitlines()[0].split('"')[1],
     description="Discord dice bot",
     author="NUCOSen Management Committee",
     author_email="info@nucosen.live",
