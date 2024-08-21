@@ -54,7 +54,6 @@ def run():
         else:
             client.change_presence()
 
-
     @client.event
     async def on_message(message):
         if client.user in message.mentions:
@@ -101,9 +100,7 @@ def run():
                     break
             embed = discord.Embed(
                 title="Dice Roll",
-                description=resultMessage
-                + "\n"
-                + "\n".join(rolledDiceList)
+                description=resultMessage + "\n" + "\n".join(rolledDiceList),
                 color=discord.Color.green(),
             )
             setNewActivity(hasD100)
