@@ -1,9 +1,8 @@
 from setuptools import setup, find_packages
 
-# NOTE : Version here
 setup(
     name="dice",
-    version="6.4.1",
+    version=open("VERSION.txt", encoding="utf-8").read(),
     description="Discord dice bot",
     author="NUCOSen Management Committee",
     author_email="info@nucosen.live",

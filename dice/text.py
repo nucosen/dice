@@ -7,6 +7,8 @@ diceLogo = """
 ██████  ██  ██████ ███████       ██   ██  ██████  ██   ████
 """
 
+version = open("VERSION.txt", encoding="utf-8").read()
+
 CoC_CharacterSheet = """```\
 STR（3d6）  ：{0}
 CON（3d6）  ：{1}
