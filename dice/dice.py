@@ -33,7 +33,7 @@ def run():
 
     # NOTE : Version here
     logger.info(text.diceLogo)
-    logger.info("Starting : Dice-kun v6.2.1")
+    logger.info("Starting : Dice-kun 6.4.0")
     for count in range(5, 0, -1):
         logger.info(str(count) + "...")
         sleep(1)
@@ -57,7 +57,7 @@ def run():
             await message.add_reaction(choice(text.emoji_list))
             # NOTE : Version here
             embed = discord.Embed(
-                title="「ダイス君 v6.2.1」で出来ること",
+                title="「ダイス君 v6.4.1」で出来ること",
                 description=text.Guide,
                 color=discord.Colour.blue(),
             )
