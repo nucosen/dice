@@ -5,9 +5,10 @@ name = "pypi"
 
 [packages]
 requests = "*"
-discord = "*"
 pyotp = "*"
 python-decouple = "*"
+aiohttp = "*"
+"discord.py" = "*"
 
 [dev-packages]
 
