@@ -29,9 +29,9 @@ def run():
 
     logger.info(text.diceLogo)
     logger.info("Starting : Dice-kun " + text.version)
-    for count in range(5, 0, -1):
-        logger.info(str(count) + "...")
-        sleep(1)
+    # for count in range(5, 0, -1):
+    #     logger.info(str(count) + "...")
+    #     sleep(1)
 
     try:
         config = AutoConfig(search_path=os.getcwd())
@@ -51,7 +51,7 @@ def run():
                 )
             )
         else:
-            await client.change_presence()
+            await client.change_presence(activity=discord.CustomActivity(None))
 
     @client.event
     async def on_message(message):
