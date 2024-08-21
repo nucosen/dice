@@ -130,4 +130,4 @@ dmypy.json
 
 # VSCode files
 .vscode/*
-/VERSION.txt
+VERSION.txt
