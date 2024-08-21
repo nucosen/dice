@@ -1,7 +1,7 @@
 import typing
 
 import discord
-from discord import AllowedMentions, File, InvalidArgument, abc, http, utils
+from discord import AllowedMentions, File, abc, http, utils
 from discord.ext import commands
 from discord.http import Route
 
@@ -214,6 +214,8 @@ async def send(
         Sending the message failed.
     ~discord.Forbidden
         You do not have the proper permissions to send the message.
+
+    NOTE - Deleted. Raise ValueError instead.
     ~discord.InvalidArgument
         The ``files`` list is not of the appropriate size,
         you specified both ``file`` and ``files``,
@@ -249,16 +251,16 @@ async def send(
         try:
             reference = reference.to_message_reference_dict()
         except AttributeError:
-            raise InvalidArgument(
+            raise ValueError(
                 "reference parameter must be Message or MessageReference"
             ) from None
 
     if file is not None and files is not None:
-        raise InvalidArgument("cannot pass both file and files parameter to send()")
+        raise ValueError("cannot pass both file and files parameter to send()")
 
     if file is not None:
         if not isinstance(file, File):
-            raise InvalidArgument("file parameter must be File")
+            raise ValueError("file parameter must be File")
 
         try:
             data = await state.http.send_files(
@@ -277,9 +279,9 @@ async def send(
 
     elif files is not None:
         if len(files) > 10:
-            raise InvalidArgument("files parameter must be a list of up to 10 elements")
+            raise ValueError("files parameter must be a list of up to 10 elements")
         elif not all(isinstance(file, File) for file in files):
-            raise InvalidArgument("files parameter must be a list of File")
+            raise ValueError("files parameter must be a list of File")
 
         try:
             data = await state.http.send_files(

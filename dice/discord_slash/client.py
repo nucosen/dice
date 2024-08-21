@@ -75,6 +75,18 @@ class SlashCommand:
         self.debug_guild = debug_guild
         self.sync_on_cog_reload = sync_on_cog_reload
 
+        self.main(
+            client,
+            delete_from_unused_guilds,
+            override_type,
+        )
+
+    async def main(
+        self,
+        client: typing.Union[discord.Client, commands.Bot],
+        delete_from_unused_guilds: bool = False,
+        override_type: bool = False,
+    ):
         if self.sync_commands:
             self._discord.loop.create_task(self.sync_all_commands(delete_from_unused_guilds))
 
