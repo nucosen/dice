@@ -43,16 +43,16 @@ def run():
 
     tree = appcmd.CommandTree(client)
 
-    def setNewActivity(withMessage: bool = False):
+    async def setNewActivity(withMessage: bool = False):
         if(withMessage):
-            client.change_presence(
+            await client.change_presence(
                 activity=discord.CustomActivity(
                     choice(text.activities),
-                    emoji=discord.PartialEmoji(name="\N{GAME DIE}")
-                    )
+                    emoji=discord.PartialEmoji(name="\N{GAME DIE}"),
                 )
+            )
         else:
-            client.change_presence()
+            await client.change_presence()
 
     @client.event
     async def on_message(message):
