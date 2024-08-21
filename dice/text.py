@@ -1,4 +1,4 @@
-version = "7.0.2b1"
+version = "7.0.2"
 
 diceLogo = """
 

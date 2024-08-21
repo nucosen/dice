@@ -25,7 +25,6 @@ def run():
     intents.message_content = True
     client = discord.Client(
         intents=intents,
-        activity=discord.CustomActivity("v" + text.version, emoji=discord.PartialEmoji(name="\N{GAME DIE}")),
     )
 
     logger.info(text.diceLogo)
@@ -57,7 +56,7 @@ def run():
     @client.event
     async def on_message(message):
         if client.user in message.mentions:
-            setNewActivity()
+            await setNewActivity()
             await message.add_reaction(choice(text.emoji_list))
             embed = discord.Embed(
                 title="「ダイス君 " + text.version + "」で出来ること",
@@ -69,7 +68,7 @@ def run():
             return
 
         if match := re.search("^!(.+)", message.content):
-            setNewActivity()
+            await setNewActivity()
             box = match.groups()[0].replace("　", " ").strip().split(" ")
             embed = discord.Embed(
                 title="抽選結果", description=choice(box), color=discord.Color.green()
@@ -103,14 +102,14 @@ def run():
                 description=resultMessage + "\n" + "\n".join(rolledDiceList),
                 color=discord.Color.green(),
             )
-            setNewActivity(hasD100)
+            await setNewActivity(hasD100)
             await message.channel.send(
                 reference=message, mention_author=True, embed=embed
             )
 
         match = re.match("^san([0-9]+)$", str(message.content).lower())
-        setNewActivity()
         if match:
+            await setNewActivity()
             border = int(match.groups()[0])
             dice = randint(1, 100)
             if dice <= border:
@@ -129,8 +128,8 @@ def run():
             )
 
         match = re.match("^ccb([0-9]+).*$", str(message.content).lower())
-        setNewActivity()
         if match:
+            await setNewActivity()
             border = int(match.groups()[0])
             dice = randint(1, 100)
             if dice <= border:
